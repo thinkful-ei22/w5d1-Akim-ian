@@ -104,7 +104,7 @@ db.notes.deleteOne({_id: "000000000000000000000017"});
 
 // // Write a MongoDB query to remove the documents from the collection notes that have an _id which is 
 // not less than "000000000000000000000018".
-db.notes.deleteMany({"_id": {$gte: "000000000000000000000018"}});
+db.notes.deleteMany({"_id": {$not: {$lte: "000000000000000000000018"}}});
 
 // // Write a MongoDB query to remove the documents from the collection notes that have an _id which is 
 // greater than or equal to "000000000000000000000013" and contain the string 'dogs' in the title.
@@ -116,6 +116,12 @@ db.notes.find({title: null}).pretty();
 
 // // Write a MongoDB query to remove all the documents from the collection notes which contain the string 
 // 'cat' in the title but not the string 'the'.
+db.notes.deleteMany({title: {$regex: /cat/ }},{title: {$not: {$regex: /the/ }}});
+db.notes.find({title:{$regex: /cat/ }}, {title: {$not: {$regex: /the/ }}});
+
+
+db.notes.find({$and: [{title:{$regex: /cat/ }}, {title: {$not: /the/ }}]});
 
 // // Write a MongoDB query to display all the documents from the collection notes that have a title field
 //  which does not contain the string 'dogs' and does contain a title field.
+db.notes.deleteMany({title: {$regex: /dogs/ }},{title: {$regex: !/the/ }});
