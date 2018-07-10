@@ -116,12 +116,10 @@ db.notes.find({title: null}).pretty();
 
 // // Write a MongoDB query to remove all the documents from the collection notes which contain the string 
 // 'cat' in the title but not the string 'the'.
-db.notes.deleteMany({title: {$regex: /cat/ }},{title: {$not: {$regex: /the/ }}});
-db.notes.find({title:{$regex: /cat/ }}, {title: {$not: {$regex: /the/ }}});
 
-
-db.notes.find({$and: [{title:{$regex: /cat/ }}, {title: {$not: /the/ }}]});
+db.notes.find({$and: [{title: {$not: /the/ }}, {title:{$exists: /cat/ }}]});
 
 // // Write a MongoDB query to display all the documents from the collection notes that have a title field
 //  which does not contain the string 'dogs' and does contain a title field.
-db.notes.deleteMany({title: {$regex: /dogs/ }},{title: {$regex: !/the/ }});
+
+db.notes.find({$and: [{title: {$not: /dogs/ }},{title: {$not: ""}}]});
